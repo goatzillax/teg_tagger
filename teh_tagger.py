@@ -70,21 +70,21 @@ for root,dirs,files in os.walk(startdir):
          print("DEBUG:  No tag found, adding")
          mp3 = mutagen.File(fullspec, easy=True)
          mp3.add_tags()
-         mp3.save()
+         # mp3.save()
 
       print("DEBUG:  current tags %s" % (mp3))
 
       # mp3.delete()  #  delete all tags;  this WILL write to file even without save
 
       for i in range(len(pathlist)):
-         if tag_map[i] != None:
-            if type(tag_map[i]).__name__ == "function":
-               tag_map[i](pathlist, mp3)
-            else:
-               #print("DEBUG:  %s(%s)" % (tag_map[i], pathlist[i]))
-               mp3[tag_map[i]] = pathlist[i]
-            #  this is where u would populate a metadata object
-
+         if tag_map[i] == None:
+            continue
+         if type(tag_map[i]).__name__ == "function":
+            tag_map[i](pathlist, mp3)
+         else:
+            #print("DEBUG:  %s(%s)" % (tag_map[i], pathlist[i]))
+            mp3[tag_map[i]] = pathlist[i]
+            
       print("DEBUG:  new tags %s" % (mp3))
 
       # mp3.save()
